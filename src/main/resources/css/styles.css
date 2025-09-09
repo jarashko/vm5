@@ -1,0 +1,124 @@
+/* styles.css */
+.root {
+    -fx-font-family: "Segoe UI";
+}
+
+.split-pane {
+    -fx-background-color: #f5f5f5;
+}
+
+.table-view .column-header {
+    -fx-size: 35px;
+}
+
+.chart {
+    -fx-min-height: 300;
+    -fx-max-height: infinity;
+}
+
+/* Стили для исходных точек - отображаем как круги */
+.chart-series-line.series0 {
+    -fx-stroke: #ff0000;
+    -fx-stroke-width: 2px;
+}
+
+.chart-line-symbol.series0 {
+    -fx-background-color: #ff0000;
+    -fx-background-radius: 4px;
+    -fx-padding: 4px;
+    -fx-shape: "M 0,0 m -4,0 a 4,4 0 1,1 8,0 a 4,4 0 1,1 -8,0";
+}
+
+/* Стили для выбранной функции - толстая черная линия */
+.chart-series-line.series1,
+.chart-series-line[data-series-name*="Функция"] {
+    -fx-stroke: #000000;
+    -fx-stroke-width: 4px;
+}
+
+/* Стили для интерполяционных многочленов - только линии */
+.chart-series-line.series2,
+.chart-series-line[data-series-name*="Лагранж"] {
+    -fx-stroke: #0000ff;
+    -fx-stroke-width: 3px;
+}
+
+.chart-series-line.series3,
+.chart-series-line[data-series-name*="Ньютон (разделенные)"] {
+    -fx-stroke: #00ff00;
+    -fx-stroke-width: 3px;
+}
+
+.chart-series-line.series4,
+.chart-series-line[data-series-name*="Ньютон (конечные)"] {
+    -fx-stroke: #ff8000;
+    -fx-stroke-width: 3px;
+}
+
+/* Убираем символы для выбранной функции и интерполяционных многочленов */
+.chart-line-symbol.series1,
+.chart-line-symbol.series2,
+.chart-line-symbol.series3,
+.chart-line-symbol.series4,
+.chart-line-symbol[data-series-name*="Функция"],
+.chart-line-symbol[data-series-name*="Лагранж"],
+.chart-line-symbol[data-series-name*="Ньютон"] {
+    -fx-background-color: transparent;
+    -fx-padding: 0px;
+    -fx-shape: "";
+}
+
+/* Стиль для маркера X (пунктирная вертикальная линия) */
+.chart-series-line.series5 {
+    -fx-stroke: #ff0000;
+    -fx-stroke-width: 3px;
+    -fx-stroke-dash-array: 8 4;
+}
+
+.chart-line-symbol.series5 {
+    -fx-background-color: transparent;
+    -fx-padding: 0px;
+    -fx-shape: "";
+}
+
+.results-area {
+    -fx-font-family: monospace;
+    -fx-font-size: 12;
+    -fx-pref-height: 300;
+}
+
+.input-panel .text-field {
+    -fx-pref-width: 100px;
+}
+
+.input-panel .label {
+    -fx-padding: 0 5 0 0;
+}
+
+.status-bar {
+    -fx-padding: 5;
+    -fx-background-color: #eee;
+    -fx-font-size: 12;
+}
+
+/* Стили для панелей */
+.function-panel {
+    -fx-padding: 10;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-color: #f9f9f9;
+}
+
+.interpolation-panel {
+    -fx-padding: 10;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-color: #f0f8ff;
+}
+
+.section-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}

@@ -1,0 +1,37 @@
+/* styles.css */
+.root {
+    -fx-font-family: "Segoe UI";
+}
+
+.split-pane {
+    -fx-background-color: #f5f5f5;
+}
+
+.table-view .column-header {
+    -fx-size: 35px;
+}
+
+.chart {
+    -fx-min-height: 300;
+    -fx-max-height: infinity;
+}
+
+.results-area {
+    -fx-font-family: monospace;
+    -fx-font-size: 12;
+    -fx-pref-height: 300;
+}
+
+.input-panel .text-field {
+    -fx-pref-width: 100px;
+}
+
+.input-panel .label {
+    -fx-padding: 0 5 0 0;
+}
+
+.status-bar {
+    -fx-padding: 5;
+    -fx-background-color: #eee;
+    -fx-font-size: 12;
+}

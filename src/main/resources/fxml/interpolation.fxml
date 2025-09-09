@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.SplitPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.ifmo.cs.controller.InterpolationController"
+            stylesheets="@/css/styles.css">
+
+    <top>
+        <ToolBar>
+            <Button text="Удалить точку" onAction="#handleRemovePoint" />
+            <Button text="Очистить все" onAction="#handleClearAll" />
+            <Button text="Загрузить из файла" onAction="#handleLoadFile" />
+            <Button text="Сохранить в файл" onAction="#handleSaveFile" />
+            <Button text="Интерполировать" onAction="#handleCalculate" />
+        </ToolBar>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.3">
+            <!-- Левая часть: Управление данными -->
+            <VBox>
+                <!-- Таблица точек -->
+                <ScrollPane fitToWidth="true">
+                    <TableView fx:id="pointsTable" styleClass="table-view" editable="true">
+                        <columns>
+                            <TableColumn fx:id="xColumn" text="X" sortable="false"
+                                         prefWidth="100" editable="true" />
+                            <TableColumn fx:id="yColumn" text="Y" sortable="false"
+                                         prefWidth="100" editable="true" />
+                        </columns>
+                    </TableView>
+                </ScrollPane>
+
+                <!-- Форма добавления точки -->
+                <HBox styleClass="input-panel" spacing="5">
+                    <Label text="X:" />
+                    <TextField fx:id="xInput" prefWidth="60" />
+                    <Label text="Y:" />
+                    <TextField fx:id="yInput" prefWidth="60" />
+                    <Button fx:id="addPointButton" text="Добавить" onAction="#handleAddPoint" />
+                </HBox>
+
+                <!-- Генерация функции -->
+                <VBox styleClass="function-panel" spacing="5">
+                    <Label text="Генерация функции:" styleClass="section-title" />
+                    <HBox spacing="5">
+                        <Label text="Функция:" />
+                        <ComboBox fx:id="functionComboBox" prefWidth="100" />
+                    </HBox>
+                    <HBox spacing="5">
+                        <Label text="От:" />
+                        <TextField fx:id="intervalStartInput" prefWidth="60" />
+                        <Label text="До:" />
+                        <TextField fx:id="intervalEndInput" prefWidth="60" />
+                        <Label text="Точек:" />
+                        <TextField fx:id="pointsCountInput" prefWidth="50" />
+                    </HBox>
+                    <Button fx:id="generateFunctionButton" text="Сгенерировать" onAction="#handleGenerateFunction" />
+                </VBox>
+
+                <!-- Интерполяция -->
+                <VBox styleClass="interpolation-panel" spacing="5">
+                    <Label text="Интерполяция:" styleClass="section-title" />
+                    <HBox spacing="5">
+                        <Label text="X для интерполяции:" />
+                        <TextField fx:id="targetXInput" prefWidth="80" />
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Правая часть: График и результаты -->
+            <VBox>
+                <TabPane styleClass="results-tabs" VBox.vgrow="ALWAYS">
+                <Tab text="График">
+                    <LineChart fx:id="chart" title="Интерполяция функций"
+                               animated="false" createSymbols="false" styleClass="chart">
+                        <xAxis>
+                            <NumberAxis fx:id="xAxis" label="X" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="yAxis" label="Y" />
+                        </yAxis>
+                    </LineChart>
+                </Tab>
+                    <Tab text="Результаты">
+                        <TextArea fx:id="resultsArea" styleClass="results-area" editable="false" VBox.vgrow="ALWAYS" />
+                    </Tab>
+                </TabPane>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <bottom>
+        <Label fx:id="statusBar" styleClass="status-bar" />
+    </bottom>
+</BorderPane>
+
+
