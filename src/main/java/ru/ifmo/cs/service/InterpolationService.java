@@ -133,8 +133,8 @@ public class InterpolationService {
         double term = 1.0;
 
         for (int i = 1; i < n; i++) {
-            term *= (t - i + 1) / i;
-            result += finiteDifferences[0][i] * term;
+            term *= (t - i + 1);
+            result += finiteDifferences[0][i] * term / factorial(i);
         }
 
         return result;
@@ -205,23 +205,36 @@ public class InterpolationService {
         int center = n / 2;
         double t = (x - xValues[center]) / h;
 
+        // Формула Стирлинга: P(x) = y₀ + t(Δy₋₁ + Δy₀)/2! + t²/2! Δ²y₋₁ + ...
         double result = finiteDifferences[center][0];
-        double term = 1.0;
-
-        for (int i = 1; i < n; i++) {
-            if (i % 2 == 1) {
-                term *= t;
-                if (center - (i+1)/2 >= 0 && center + (i-1)/2 < n) {
-                    result += finiteDifferences[center - (i+1)/2][i] * term / factorial(i);
-                }
-            } else {
-                term *= (t * t - (i/2) * (i/2));
-                if (center - i/2 >= 0 && center + i/2 < n) {
-                    result += finiteDifferences[center - i/2][i] * term / factorial(i);
-                }
+        
+        // Первый член: t(Δy₋₁ + Δy₀)/2!
+        if (center > 0 && center < n - 1) {
+            double delta1 = finiteDifferences[center - 1][1] + finiteDifferences[center][1];
+            result += t * delta1 / 2.0;
+        }
+        
+        // Второй член: t²/2! Δ²y₋₁
+        if (center > 0 && center < n - 2) {
+            result += (t * t / 2.0) * finiteDifferences[center - 1][2];
+        }
+        
+        // Остальные члены для нечетных порядков
+        double term = t;
+        for (int i = 3; i < n; i += 2) {
+            if (center - (i+1)/2 >= 0 && center + (i-1)/2 < n) {
+                double delta = finiteDifferences[center - (i+1)/2][i] + finiteDifferences[center - (i-1)/2][i];
+                term *= (t * t - ((i-1)/2) * ((i-1)/2));
+                result += term * delta / (2.0 * factorial(i));
             }
-            if (!Double.isFinite(result)) {
-                return Double.NaN;
+        }
+        
+        // Члены для четных порядков
+        term = t * t;
+        for (int i = 4; i < n; i += 2) {
+            if (center - i/2 >= 0 && center + i/2 < n) {
+                term *= (t * t - (i/2) * (i/2));
+                result += term * finiteDifferences[center - i/2][i] / factorial(i);
             }
         }
 
@@ -276,6 +289,7 @@ public class InterpolationService {
         int center = n / 2;
         double t = (x - xValues[center]) / h;
 
+        // Формула Бесселя: P(x) = (y₀ + y₁)/2 + (t-1/2)Δy₀ + t(t-1)/2! (Δ²y₋₁ + Δ²y₀)/2 + ...
         double result;
         if (center + 1 < n) {
             result = (finiteDifferences[center][0] + finiteDifferences[center + 1][0]) / 2.0;
@@ -283,22 +297,37 @@ public class InterpolationService {
             result = finiteDifferences[center][0];
         }
 
-        double term = t - 0.5;
-
-        for (int i = 1; i < n; i++) {
-            if (i % 2 == 1) {
-                if (center - (i-1)/2 >= 0 && center + (i+1)/2 < n) {
-                    result += finiteDifferences[center - (i-1)/2][i] * term / factorial(i);
-                }
-            } else {
-                term *= (t - 0.5) * (t + 0.5);
-                if (center - i/2 >= 0 && center + i/2 < n) {
-                    result += finiteDifferences[center - i/2][i] * term / factorial(i);
-                }
-            }
-            if (!Double.isFinite(result)) {
-                return Double.NaN;
-            }
+        // Первый член: (t-1/2)Δy₀
+        if (center < n - 1) {
+            result += (t - 0.5) * finiteDifferences[center][1];
+        }
+        
+        // Второй член: t(t-1)/2! (Δ²y₋₁ + Δ²y₀)/2
+        if (center > 0 && center < n - 1) {
+            double delta2 = finiteDifferences[center - 1][2] + finiteDifferences[center][2];
+            result += (t * (t - 1) / 2.0) * (delta2 / 2.0);
+        }
+        
+        // Третий член: (t-1/2)t(t-1)/3! Δ³y₋₁
+        if (center > 0 && center < n - 2) {
+            result += (t - 0.5) * t * (t - 1) * finiteDifferences[center - 1][3] / 6.0;
+        }
+        
+        // Четвертый член: t(t-1)(t+1)(t-2)/4! (Δ⁴y₋₂ + Δ⁴y₋₁)/2
+        if (center > 1 && center < n - 1) {
+            double delta4 = finiteDifferences[center - 2][4] + finiteDifferences[center - 1][4];
+            result += (t * (t - 1) * (t + 1) * (t - 2) / 24.0) * (delta4 / 2.0);
+        }
+        
+        // Пятый член: (t-1/2)t(t-1)(t+1)(t-2)/5! Δ⁵y₋₂
+        if (center > 1 && center < n - 2) {
+            result += (t - 0.5) * t * (t - 1) * (t + 1) * (t - 2) * finiteDifferences[center - 2][5] / 120.0;
+        }
+        
+        // Шестой член: t(t-1)(t+1)(t-2)(t+2)(t-3)/6! (Δ⁶y₋₃ + Δ⁶y₋₂)/2
+        if (center > 2 && center < n - 1) {
+            double delta6 = finiteDifferences[center - 3][6] + finiteDifferences[center - 2][6];
+            result += (t * (t - 1) * (t + 1) * (t - 2) * (t + 2) * (t - 3) / 720.0) * (delta6 / 2.0);
         }
 
         return result;
