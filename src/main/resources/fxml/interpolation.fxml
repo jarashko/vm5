@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.ScatterChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.SplitPane?>
 

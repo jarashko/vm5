@@ -1,25 +1,15 @@
-/* styles.css */
-.root {
-    -fx-font-family: "Segoe UI";
+/* Дополнительные стили для графиков */
+
+/* Убираем пунктирные линии по умолчанию */
+.chart-series-line {
+    -fx-stroke-dash-array: null;
 }
 
-.split-pane {
-    -fx-background-color: #f5f5f5;
-}
-
-.table-view .column-header {
-    -fx-size: 35px;
-}
-
-.chart {
-    -fx-min-height: 300;
-    -fx-max-height: infinity;
-}
-
-/* Стили для исходных точек - отображаем как круги */
+/* Стили для исходных точек - красные круги */
 .chart-series-line[data-series-name*="Исходные точки"] {
     -fx-stroke: #ff0000;
     -fx-stroke-width: 2px;
+    -fx-stroke-dash-array: null;
 }
 
 .chart-line-symbol[data-series-name*="Исходные точки"] {
@@ -33,32 +23,38 @@
 .chart-series-line[data-series-name*="Выбранная функция"] {
     -fx-stroke: #000000;
     -fx-stroke-width: 4px;
+    -fx-stroke-dash-array: null;
 }
 
-/* Стили для интерполяционных многочленов - разные цвета */
+/* Стили для интерполяционных многочленов - разные цвета для каждого метода */
 .chart-series-line[data-series-name*="Лагранж"] {
-    -fx-stroke: #0000ff;
-    -fx-stroke-width: 3px;
+    -fx-stroke: #0066cc;
+    -fx-stroke-width: 2px;
+    -fx-stroke-dash-array: null;
 }
 
 .chart-series-line[data-series-name*="Ньютон (разделенные)"] {
-    -fx-stroke: #00ff00;
-    -fx-stroke-width: 3px;
+    -fx-stroke: #00cc66;
+    -fx-stroke-width: 2px;
+    -fx-stroke-dash-array: null;
 }
 
 .chart-series-line[data-series-name*="Ньютон (конечные)"] {
-    -fx-stroke: #ff8000;
-    -fx-stroke-width: 3px;
+    -fx-stroke: #cc6600;
+    -fx-stroke-width: 2px;
+    -fx-stroke-dash-array: null;
 }
 
 .chart-series-line[data-series-name*="Стирлинг"] {
-    -fx-stroke: #8000ff;
-    -fx-stroke-width: 3px;
+    -fx-stroke: #6600cc;
+    -fx-stroke-width: 2px;
+    -fx-stroke-dash-array: null;
 }
 
 .chart-series-line[data-series-name*="Бессель"] {
-    -fx-stroke: #ff0080;
-    -fx-stroke-width: 3px;
+    -fx-stroke: #cc0066;
+    -fx-stroke-width: 2px;
+    -fx-stroke-dash-array: null;
 }
 
 /* Убираем символы для всех линий функций */
@@ -72,7 +68,7 @@
     -fx-shape: "";
 }
 
-/* Стиль для маркера X (пунктирная вертикальная линия) */
+/* Стиль для маркера X - только этот должен быть пунктирным */
 .chart-series-line[data-series-name*="x*"] {
     -fx-stroke: #ff0000;
     -fx-stroke-width: 3px;
@@ -85,44 +81,27 @@
     -fx-shape: "";
 }
 
-.results-area {
-    -fx-font-family: monospace;
-    -fx-font-size: 12;
-    -fx-pref-height: 300;
+/* Дополнительные стили для улучшения внешнего вида */
+.chart-plot-background {
+    -fx-background-color: #ffffff;
 }
 
-.input-panel .text-field {
-    -fx-pref-width: 100px;
+.chart-vertical-grid-lines {
+    -fx-stroke: #e0e0e0;
+    -fx-stroke-width: 1px;
 }
 
-.input-panel .label {
-    -fx-padding: 0 5 0 0;
+.chart-horizontal-grid-lines {
+    -fx-stroke: #e0e0e0;
+    -fx-stroke-width: 1px;
 }
 
-.status-bar {
-    -fx-padding: 5;
-    -fx-background-color: #eee;
-    -fx-font-size: 12;
+.chart-vertical-zero-line {
+    -fx-stroke: #000000;
+    -fx-stroke-width: 2px;
 }
 
-/* Стили для панелей */
-.function-panel {
-    -fx-padding: 10;
-    -fx-border-color: #cccccc;
-    -fx-border-width: 1;
-    -fx-border-radius: 5;
-    -fx-background-color: #f9f9f9;
-}
-
-.interpolation-panel {
-    -fx-padding: 10;
-    -fx-border-color: #cccccc;
-    -fx-border-width: 1;
-    -fx-border-radius: 5;
-    -fx-background-color: #f0f8ff;
-}
-
-.section-title {
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
+.chart-horizontal-zero-line {
+    -fx-stroke: #000000;
+    -fx-stroke-width: 2px;
 }
