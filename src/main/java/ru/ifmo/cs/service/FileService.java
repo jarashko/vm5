@@ -47,7 +47,7 @@ public class FileService {
                 lineNumber++;
                 line = line.trim();
 
-                if (line.isEmpty() || line.startsWith("#") || line.startsWith("
+                if (line.isEmpty() || line.startsWith("#") || line.startsWith("//")) {
                     continue;
                 }
 
